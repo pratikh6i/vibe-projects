@@ -2,15 +2,20 @@
 name: Deploy Multi-Project Site to Pages
 
 on:
+  # Runs on pushes targeting the default branch
   push:
     branches: ["main"]
+
+  # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
+# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
 permissions:
   contents: read
   pages: write
   id-token: write
 
+# Allow only one concurrent deployment
 concurrency:
   group: "pages"
   cancel-in-progress: false
@@ -29,10 +34,13 @@ jobs:
         uses: actions/configure-pages@v4
 
       # This uploads the entire root of the repo.
-      # Your projects will be at /vibe-projects/countdown/, /vibe-projects/project2/, etc.
+      # Your projects will be accessible at:
+      # /vibe-projects/countdown/
+      # /vibe-projects/future-project/
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
+          # Upload entire repository so subfolders work as paths
           path: '.'
 
       - name: Deploy to GitHub Pages
