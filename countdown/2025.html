@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2026 Countdown</title>
+    <!-- Canvas-Confetti for high-performance celebrations -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <style>
+        :root {
+            --bg: #020205;
+            --gold: #ffd700;
+            --white: #ffffff;
+            --glass: rgba(255, 255, 255, 0.03);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background-color: var(--bg);
+            color: var(--white);
+            font-family: 'Inter', -apple-system, sans-serif;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            background: radial-gradient(circle at center, #0a0a20 0%, #020205 100%);
+        }
+
+        .star-layer {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        .main-container {
+            text-align: center;
+            padding: 3rem;
+            border-radius: 32px;
+            background: var(--glass);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 40px 100px rgba(0,0,0,0.8);
+            max-width: 90%;
+        }
+
+        .title {
+            text-transform: uppercase;
+            letter-spacing: 0.6rem;
+            font-size: 1rem;
+            color: var(--gold);
+            margin-bottom: 2.5rem;
+            font-weight: 300;
+        }
+
+        .timer-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+        }
+
+        .box {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .val {
+            font-size: 4.5rem;
+            font-weight: 900;
+            font-variant-numeric: tabular-nums;
+            line-height: 1;
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+        }
+
+        .unit {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.2rem;
+            color: #666;
+            margin-top: 0.8rem;
+        }
+
+        #celebration {
+            display: none;
+            text-align: center;
+        }
+
+        .huge {
+            font-size: clamp(3rem, 15vw, 10rem);
+            font-weight: 900;
+            background: linear-gradient(135deg, #fff 0%, #ffd700 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 0 30px rgba(255, 215, 0, 0.4));
+        }
+
+        @media (max-width: 650px) {
+            .timer-grid { gap: 0.8rem; }
+            .val { font-size: 2.2rem; }
+            .main-container { padding: 1.5rem; }
+            .title { letter-spacing: 0.3rem; font-size: 0.8rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <canvas id="stars" class="star-layer"></canvas>
+
+    <div class="main-container" id="ui-container">
+        <div id="countdown-content">
+            <h1 class="title">Countdown to 2026</h1>
+            <div class="timer-grid">
+                <div class="box"><span class="val" id="d">00</span><span class="unit">Days</span></div>
+                <div class="box"><span class="val" id="h">00</span><span class="unit">Hours</span></div>
+                <div class="box"><span class="val" id="m">00</span><span class="unit">Mins</span></div>
+                <div class="box"><span class="val" id="s">00</span><span class="unit">Secs</span></div>
+            </div>
+        </div>
+
+        <div id="celebration">
+            <h1 class="huge">2026</h1>
+            <p style="font-size: 1.5rem; letter-spacing: 0.5rem; color: var(--gold);">HAPPY NEW YEAR</p>
+        </div>
+    </div>
+
+    <script>
+        // Set target: Jan 1st, 2026
+        const target = new Date('January 1, 2026 00:00:00').getTime();
+        let finished = false;
+
+        function update() {
+            const now = new Date().getTime();
+            const gap = target - now;
+
+            if (gap <= 0) {
+                if (!finished) triggerCelebration();
+                return;
+            }
+
+            const second = 1000, minute = second * 60, hour = minute * 60, day = hour * 24;
+
+            document.getElementById('d').innerText = Math.floor(gap / day).toString().padStart(2, '0');
+            document.getElementById('h').innerText = Math.floor((gap % day) / hour).toString().padStart(2, '0');
+            document.getElementById('m').innerText = Math.floor((gap % hour) / minute).toString().padStart(2, '0');
+            document.getElementById('s').innerText = Math.floor((gap % minute) / second).toString().padStart(2, '0');
+        }
+
+        function triggerCelebration() {
+            finished = true;
+            document.getElementById('countdown-content').style.display = 'none';
+            document.getElementById('celebration').style.display = 'block';
+
+            const duration = 15 * 1000;
+            const animationEnd = Date.now() + duration;
+            const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0 };
+
+            function randomInRange(min, max) { return Math.random() * (max - min) + min; }
+
+            const interval = setInterval(function() {
+                const timeLeft = animationEnd - Date.now();
+                if (timeLeft <= 0) return clearInterval(interval);
+
+                const particleCount = 50 * (timeLeft / duration);
+                confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 } }));
+                confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 } }));
+            }, 250);
+        }
+
+        // Star Background logic
+        const canvas = document.getElementById('stars');
+        const ctx = canvas.getContext('2d');
+        let starArr = [];
+
+        function resize() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            starArr = Array.from({length: 150}, () => ({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                r: Math.random() * 1.5,
+                o: Math.random()
+            }));
+        }
+
+        function draw() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            starArr.forEach(s => {
+                ctx.globalAlpha = s.o;
+                ctx.fillStyle = 'white';
+                ctx.beginPath();
+                ctx.arc(s.x, s.y, s.r, 0, Math.PI*2);
+                ctx.fill();
+                s.o += (Math.random() - 0.5) * 0.05;
+                if(s.o < 0) s.o = 0; if(s.o > 1) s.o = 1;
+            });
+            requestAnimationFrame(draw);
+        }
+
+        window.addEventListener('resize', resize);
+        resize();
+        draw();
+        setInterval(update, 1000);
+        update();
+    </script>
+</body>
+</html>
