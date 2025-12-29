@@ -1,0 +1,738 @@
+@import url('./fireworks.css');
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap');
+
+:root {
+  --primary: #6366f1;
+  --secondary: #8b5cf6;
+  --accent: #ec4899;
+  --bg-color: #030712;
+  --card-bg: rgba(15, 23, 42, 0.4);
+  --glass-border: rgba(255, 255, 255, 0.1);
+  --text-color: #ffffff;
+}
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+body {
+  background: var(--bg-color);
+  color: var(--text-color);
+  min-height: 100vh;
+  overflow-x: hidden;
+  position: relative;
+}
+
+/* Starry Background */
+.stars-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  background: radial-gradient(circle at center, #111827 0%, #030712 100%);
+  overflow: hidden;
+}
+
+.star {
+  position: absolute;
+  background: white;
+  border-radius: 50%;
+  opacity: 0.5;
+  animation: twinkle var(--duration) infinite ease-in-out;
+}
+
+@keyframes twinkle {
+
+  0%,
+  100% {
+    opacity: 0.3;
+    transform: scale(1);
+  }
+
+  50% {
+    opacity: 1;
+    transform: scale(1.2);
+  }
+}
+
+.main-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 2rem;
+}
+
+.clock-card {
+  background: var(--card-bg);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--glass-border);
+  border-radius: 60px;
+  padding: 3rem 4rem;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+  text-align: center;
+  max-width: 900px;
+  width: 95%;
+  margin: 2rem auto;
+}
+
+.special-title {
+  font-family: 'Dancing Script', cursive;
+  font-size: clamp(3rem, 8vw, 5.5rem);
+  margin-bottom: -0.5rem;
+  color: white;
+  z-index: 10;
+  text-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+}
+
+.clock-title {
+  text-transform: uppercase;
+  letter-spacing: 0.4em;
+  font-size: clamp(0.8rem, 2vw, 1rem);
+  font-weight: 500;
+  margin-bottom: 2.5rem;
+  color: var(--accent);
+  opacity: 0.8;
+}
+
+.clock-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
+}
+
+.time-val {
+  font-size: clamp(3rem, 12vw, 8rem);
+  font-weight: 700;
+  line-height: 1;
+  text-shadow: 0 0 40px rgba(255, 255, 255, 0.2);
+}
+
+.time-label {
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  font-size: clamp(0.6rem, 1.5vw, 0.9rem);
+  opacity: 0.5;
+  margin-top: 1rem;
+  font-weight: 400;
+}
+
+.vibrant-gradient {
+  background: linear-gradient(to right, var(--primary), var(--secondary), var(--accent));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+
+/* Landscape Styles */
+.landscape-container {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 30vh;
+  z-index: -1;
+  overflow: hidden;
+}
+
+.hill {
+  position: absolute;
+  bottom: -10%;
+  border-radius: 50% 50% 0 0;
+}
+
+.hill-1 {
+  width: 60%;
+  height: 100%;
+  background: #0f172a;
+  left: -10%;
+}
+
+.hill-2 {
+  width: 70%;
+  height: 80%;
+  background: #1e293b;
+  right: -10%;
+}
+
+.hill-3 {
+  width: 50%;
+  height: 60%;
+  background: #020617;
+  left: 20%;
+}
+
+.house {
+  position: absolute;
+  bottom: 20px;
+  width: 40px;
+  height: 40px;
+  background: #172554;
+}
+
+.house-1 {
+  left: 15%;
+  height: 50px;
+}
+
+.house-2 {
+  right: 20%;
+  height: 60px;
+}
+
+.roof {
+  position: absolute;
+  top: -20px;
+  left: -5px;
+  width: 0;
+  height: 0;
+  border-left: 25px solid transparent;
+  border-right: 25px solid transparent;
+  border-bottom: 25px solid #1e3a8a;
+}
+
+.window.glowing {
+  position: absolute;
+  top: 15px;
+  left: 10px;
+  width: 10px;
+  height: 10px;
+  background: #fbbf24;
+  box-shadow: 0 0 10px #fbbf24;
+  animation: flicker 4s infinite;
+}
+
+@keyframes flicker {
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.6;
+  }
+}
+
+.special-title {
+  font-family: 'Dancing Script', cursive;
+  font-size: 5.5rem;
+  margin-bottom: -1rem;
+  color: white;
+  z-index: 10;
+  text-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+}
+
+.highlight-seconds {
+  color: var(--accent);
+  text-shadow: 0 0 40px var(--accent);
+}
+
+/* Celestial Bodies */
+.celestial-body {
+  position: fixed;
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  z-index: -2;
+  transition: top 1s ease-in-out, left 1s ease-in-out;
+  transform: translate(-50%, -50%);
+}
+
+.sun {
+  background: radial-gradient(circle, #fcd34d 0%, #f59e0b 70%, #d97706 100%);
+  box-shadow: 0 0 60px #f59e0b, 0 0 100px rgba(245, 158, 11, 0.4);
+}
+
+.moon {
+  background: radial-gradient(circle, #f1f5f9 0%, #cbd5e1 70%, #94a3b8 100%);
+  box-shadow: 0 0 40px #f1f5f9, 0 0 80px rgba(241, 245, 249, 0.2);
+}
+
+.moon .crater {
+  position: absolute;
+  width: 20%;
+  height: 20%;
+  transition: transform var(--wind-speed) ease-in-out;
+}
+
+.hill-1 {
+  animation: sway 8s infinite alternate ease-in-out;
+}
+
+.hill-2 {
+  animation: sway 10s infinite alternate-reverse ease-in-out;
+}
+
+.hill-3 {
+  animation: sway 12s infinite alternate ease-in-out;
+}
+
+@keyframes sway {
+  from {
+    transform: translateX(-5px) skewX(-1deg);
+  }
+
+  to {
+    transform: translateX(5px) skewX(1deg);
+  }
+}
+
+.star {
+  animation: twinkle var(--duration) infinite ease-in-out;
+}
+
+/* Memories Section */
+.memories-section {
+  padding: 3rem 1rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.memories-title {
+  text-align: center;
+  font-size: 2rem;
+  margin-bottom: 2rem;
+  color: white;
+  text-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+}
+
+.memories-empty {
+  text-align: center;
+  padding: 3rem;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border-radius: 20px;
+  color: white;
+}
+
+.memories-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+
+.memory-item {
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.memory-media {
+  width: 100%;
+  height: 250px;
+  object-fit: cover;
+  display: block;
+}
+
+/* Air Traffic */
+.air-traffic {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+  overflow: hidden;
+}
+
+.airplane-container {
+  position: absolute;
+  left: -100px;
+  display: flex;
+  align-items: center;
+  animation: fly linear infinite;
+  pointer-events: auto;
+  cursor: pointer;
+}
+
+.airplane-icon {
+  width: 32px;
+  height: 32px;
+  color: #1e293b;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+  z-index: 2;
+}
+
+.contrail {
+  position: absolute;
+  right: 32px;
+  width: 150px;
+  height: 4px;
+  background: linear-gradient(to left, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0));
+  border-radius: 2px;
+  filter: blur(2px);
+  animation: contrail-fade 2s infinite;
+}
+
+@keyframes contrail-fade {
+
+  0%,
+  100% {
+    opacity: 0.7;
+  }
+
+  50% {
+    opacity: 0.9;
+  }
+}
+
+.flight-info {
+  position: absolute;
+  bottom: -60px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0, 0, 0, 0.85);
+  color: white;
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 0.75rem;
+  white-space: nowrap;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.airplane-container:hover .flight-info {
+  opacity: 1;
+}
+
+@keyframes fly {
+  0% {
+    left: -100px;
+  }
+
+  100% {
+    left: 110%;
+  }
+}
+
+/* ===== CELEBRATION CARDS - CLEAN DESIGN ===== */
+.celebration-card {
+  background: rgba(15, 23, 42, 0.95);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  overflow: hidden;
+  width: 280px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  background: rgba(0, 0, 0, 0.3);
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.minimize-btn {
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
+  color: white;
+  width: 24px;
+  height: 24px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.card-body {
+  padding: 16px;
+}
+
+.card-body p {
+  margin: 0 0 12px 0;
+  opacity: 0.8;
+  font-size: 0.85rem;
+}
+
+/* Buttons */
+.btn-primary,
+.btn-secondary,
+.btn-danger,
+.btn-capture {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.85rem;
+  margin: 4px;
+  transition: all 0.2s;
+}
+
+.btn-primary {
+  background: #ec4899;
+  color: white;
+}
+
+.btn-primary:hover {
+  background: #db2777;
+}
+
+.btn-secondary {
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+}
+
+.btn-secondary:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.btn-danger {
+  background: #ef4444;
+  color: white;
+}
+
+.btn-capture {
+  background: #10b981;
+  color: white;
+  width: 100%;
+  margin-top: 12px;
+}
+
+.btn-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+/* Selfie Card Positioning */
+.selfie-card {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  z-index: 100;
+}
+
+/* Group Card Positioning */
+.group-card {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  z-index: 100;
+}
+
+/* Resolution Card Positioning */
+.resolution-card {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 100;
+}
+
+/* Frame Pills */
+.frame-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+
+.frame-pill {
+  padding: 6px 12px;
+  border-radius: 20px;
+  border: 2px solid transparent;
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.frame-pill.active {
+  border-color: white;
+  transform: scale(1.05);
+}
+
+/* Camera Box */
+.camera-box {
+  width: 100%;
+  aspect-ratio: 4/3;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 3px solid #fbbf24;
+  background: #0f172a;
+}
+
+.camera-box video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.camera-off {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+
+.camera-off p {
+  font-size: 2rem;
+  margin: 0;
+}
+
+.captured-preview {
+  width: 100%;
+  border-radius: 12px;
+  margin-bottom: 12px;
+}
+
+/* Sticky Notes */
+.sticky-notes {
+  position: fixed;
+  top: 120px;
+  right: 20px;
+  z-index: 50;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-width: 200px;
+}
+
+.sticky-note {
+  background: #fef08a;
+  padding: 12px;
+  font-size: 0.8rem;
+  color: #1e293b;
+  box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);
+  animation: noteFloat 4s ease-in-out infinite;
+}
+
+@keyframes noteFloat {
+
+  0%,
+  100% {
+    transform: translateY(0) rotate(var(--rotate, 3deg));
+  }
+
+  50% {
+    transform: translateY(-5px) rotate(var(--rotate, 3deg));
+  }
+}
+
+/* FAB Button */
+.fab-add {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: #10b981;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 30px;
+  font-weight: 600;
+  cursor: pointer;
+  z-index: 100;
+  box-shadow: 0 4px 20px rgba(16, 185, 129, 0.4);
+}
+
+/* Modal */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 200;
+}
+
+.modal-box {
+  background: #1e293b;
+  border-radius: 20px;
+  padding: 24px;
+  max-width: 400px;
+  width: 90%;
+  color: white;
+}
+
+.modal-box h3 {
+  margin: 0 0 16px 0;
+}
+
+.modal-box input {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 10px;
+  background: rgba(0, 0, 0, 0.3);
+  color: white;
+  margin-bottom: 12px;
+}
+
+.resolution-list {
+  margin-bottom: 16px;
+}
+
+.res-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.res-item button {
+  background: none;
+  border: none;
+  color: #ef4444;
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+
+.res-input-row {
+  display: flex;
+  gap: 8px;
+}
+
+.res-input-row input {
+  flex: 1;
+  margin: 0;
+}
+
+.res-input-row button {
+  background: #3b82f6;
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.res-count {
+  text-align: center;
+  opacity: 0.5;
+  margin: 12px 0;
+}
+
+/* Participants */
+.participants {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+
+.participant-chip {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+}

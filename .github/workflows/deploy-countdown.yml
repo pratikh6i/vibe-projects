@@ -1,0 +1,39 @@
+name: Deploy Countdown
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - '2025 Countdown/countdown/**'
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: '2025 Countdown/countdown/package-lock.json'
+
+      - name: Install dependencies
+        run: npm ci
+        working-directory: '2025 Countdown/countdown'
+
+      - name: Build
+        run: npm run build
+        working-directory: '2025 Countdown/countdown'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_OWNER: ${{ github.repository_owner }}
+          GITHUB_REPO: ${{ github.event.repository.name }}
+
+      # You can add a deployment step here (e.g., GitHub Pages, Vercel, etc.)
+      # - name: Deploy
+      #   uses: ...
