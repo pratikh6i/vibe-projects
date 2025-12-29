@@ -122,22 +122,18 @@ export default function Countdown() {
     };
 
     const uploadRecording = async (blob: Blob) => {
-        const formData = new FormData();
-        formData.append('file', blob, `celebration-${new Date().toISOString()}.webm`);
+        // Disabled for static export
+        console.log('Recording stopped. Static export - download logic can be added here.');
 
-        try {
-            const res = await fetch('/api/upload-recording', {
-                method: 'POST',
-                body: formData,
-            });
-            if (res.ok) {
-                console.log('Recording uploaded to GitHub successfully!');
-            } else {
-                console.error('Failed to upload recording.');
-            }
-        } catch (err) {
-            console.error('Upload error:', err);
-        }
+        // Auto-download instead of upload
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        document.body.appendChild(a);
+        a.style.display = 'none';
+        a.href = url;
+        a.download = `celebration-${new Date().toISOString()}.webm`;
+        a.click();
+        window.URL.revokeObjectURL(url);
     };
 
     if (!timeLeft) return null;
